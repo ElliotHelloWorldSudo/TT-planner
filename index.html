@@ -65,21 +65,13 @@
       color: var(--text-main);
       margin: 0;
       padding: 0;
-      /* DEFAULT: APP MODE (Locked height for Swipe View) */
-      height: 100vh;
-      overflow: hidden; 
-      user-select: none; 
+      min-height: 100vh; /* Allow body to grow */
       display: flex;
       flex-direction: column;
-    }
-
-    /* --- MAGIC TRICK: NATIVE SCROLL MODE --- */
-    /* Only applied when in Compact View */
-    body.native-scroll {
-        height: auto; /* Allow body to grow */
-        min-height: 100vh;
-        overflow-y: auto; /* Enable Native Browser Scroll */
-        display: block; /* Remove flex constraint */
+      /* NATIVE SCROLL ENABLED */
+      overflow-y: auto; 
+      overflow-x: hidden; /* Prevent side scroll of body */
+      user-select: none; 
     }
 
     /* --- HEADER (STICKY) --- */
@@ -93,7 +85,7 @@
       align-items: center;
       border-bottom: 1px solid var(--border-color);
       
-      /* THIS MAKES IT STICK WHEN SCROLLING DOWN */
+      /* STICKS TO TOP WHEN SCROLLING */
       position: sticky;
       top: 0;
       z-index: 1000; 
@@ -125,9 +117,8 @@
 
     /* --- VIEW CONTAINERS --- */
     .view-container {
-        flex: 1; 
+        flex: 1; /* Pushes footer down */
         position: relative;
-        overflow: hidden;
         width: 100%;
     }
 
@@ -137,6 +128,7 @@
 
     /* --- SWIPE VIEW STYLES --- */
     #timetable-container {
+        /* Allow touch actions */
         cursor: grab;
         touch-action: pan-y; 
     }
@@ -144,17 +136,19 @@
 
     .days-track {
         display: flex;
-        height: 100%;
+        /* Height auto lets content determine scroll length */
+        height: auto; 
         width: 600vw; 
         transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+        align-items: flex-start; /* Aligns days to top */
     }
 
     .day-view {
         width: 100vw;
-        height: 100%;
-        overflow-y: auto; 
+        /* Allow height to grow naturally */
+        height: auto; 
         padding: 20px;
-        padding-bottom: 160px; /* Space for footer */
+        padding-bottom: 40px; 
     }
 
     .day-header {
@@ -217,15 +211,12 @@
     .break-duration-text { font-size: 0.85rem; color: var(--text-muted); opacity: 0.8; }
 
 
-    /* --- COMPACT TABLE VIEW (WEB SCROLL) --- */
+    /* --- COMPACT TABLE VIEW --- */
     #compact-container {
-        /* Let the BODY handle vertical scroll (The Miracle) */
-        overflow-x: auto; /* Horizontal scroll handled here */
-        overflow-y: visible; /* Vertical expands */
+        /* Table scrolls horizontally, Page scrolls vertically */
+        overflow-x: auto; 
         padding: 0;
-        padding-bottom: 100px; /* Space for footer */
         background-color: var(--bg-color);
-        min-height: 101vh; /* Force scrollbar to trigger address bar hide */
     }
 
     .weekly-table {
@@ -235,7 +226,6 @@
         min-width: 600px; 
     }
 
-    /* Readable Cells (Larger Font) */
     .weekly-table th, .weekly-table td {
         padding: 12px 8px;
         text-align: center;
@@ -248,10 +238,10 @@
 
     /* --- STICKY HEADERS --- */
     
-    /* 1. Day Headers (Mon, Tue...) stuck below Main Header */
+    /* 1. Day Headers (Mon, Tue...) */
     .weekly-table thead th {
         position: sticky;
-        top: 60px; /* Sits right under the 60px header */
+        top: 60px; /* Sticks below main header */
         background-color: var(--header-bg);
         z-index: 20;
         border-bottom: 2px solid var(--border-color);
@@ -261,7 +251,7 @@
         box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
 
-    /* 2. Time Column stuck to Left */
+    /* 2. Time Column */
     .weekly-table tbody td:first-child {
         position: sticky;
         left: 0;
@@ -273,12 +263,12 @@
         min-width: 85px;
     }
 
-    /* 3. Corner Cell (Time/Day intersection) */
+    /* 3. Corner Cell */
     .weekly-table thead th:first-child {
         position: sticky;
         top: 60px;
         left: 0;
-        z-index: 30; /* Highest */
+        z-index: 30;
         background-color: var(--header-bg);
         border-right: 2px solid var(--border-color);
     }
@@ -294,19 +284,16 @@
     .cell-room { font-size: 0.75rem; color: var(--text-muted); display: block; }
 
 
-    /* --- FOOTER (FIXED) --- */
+    /* --- FOOTER (STATIC BOTTOM) --- */
     .footer-sig {
-        position: fixed;
-        bottom: 0;
+        /* NOT FIXED - Sits at bottom of content */
         width: 100%;
         text-align: center;
-        padding: 15px;
+        padding: 20px;
         background: var(--bg-color);
         color: var(--text-muted);
         border-top: 1px solid var(--border-color);
-        z-index: 200;
-        /* Blur effect for better look over content */
-        backdrop-filter: blur(10px); 
+        margin-top: auto; /* Pushes to bottom if content is short */
     }
     .signature { color: var(--accent-color); font-weight: 700; font-family: 'Courier New', monospace; }
 
@@ -336,11 +323,13 @@
                       <span class="info-badge">LAB</span>
                   </div>
               </div>
+              
               <div class="break-card">
                 <div class="break-header">Break</div>
                 <div class="break-time-text">01:00 PM - 02:00 PM</div>
                 <div class="break-duration-text">1 hr 0 min</div>
               </div>
+              
               <div class="class-card type-lec" data-day="1" data-start-hour="14" data-end-hour="15">
                   <div class="time-slot">02:00 PM - 03:00 PM</div>
                   <div class="subject-name">UHV</div>
@@ -632,21 +621,16 @@
     function toggleView() {
         const swipeContainer = document.getElementById('timetable-container');
         const compactContainer = document.getElementById('compact-container');
-        const body = document.body;
         
         if (swipeContainer.classList.contains('hidden-view')) {
-            // SWITCH TO SWIPE VIEW (App Mode)
+            // SWITCH TO SWIPE VIEW
             swipeContainer.classList.remove('hidden-view');
             compactContainer.classList.add('hidden-view');
-            body.classList.remove('native-scroll'); // Lock body
-            
-            // Re-jump to current day to fix offsets
             setTimeout(() => jumpToDay(currentDayIndex), 50);
         } else {
-            // SWITCH TO COMPACT VIEW (Web Mode)
+            // SWITCH TO COMPACT VIEW
             swipeContainer.classList.add('hidden-view');
             compactContainer.classList.remove('hidden-view');
-            body.classList.add('native-scroll'); // Unlock body
         }
     }
 
@@ -711,8 +695,10 @@
         if (!isDragging) return;
         const currentX = event.touches[0].clientX;
         const currentY = event.touches[0].clientY;
+        
+        // Horizontal Swipe Logic (Only if dragging more X than Y)
         if (Math.abs(currentX - startX) > Math.abs(currentY - startY)) {
-            event.preventDefault(); 
+            event.preventDefault(); // Lock vertical scroll only when swiping horizontally
             moveDrag(currentX);
         }
     }
