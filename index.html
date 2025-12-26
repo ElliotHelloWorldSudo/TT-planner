@@ -123,16 +123,16 @@
     #filter-panel {
         background: var(--header-bg);
         width: 100%;
-        max-height: 0; /* Hidden by default */
+        max-height: 0; 
         overflow: hidden;
         transition: max-height 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
         border-bottom: 1px solid var(--border-color);
         position: relative; z-index: 90;
-        flex: 0 0 auto; /* Don't stretch */
+        flex: 0 0 auto; 
     }
     
     #filter-panel.expanded {
-        max-height: 300px; /* Approx height when open */
+        max-height: 300px; 
     }
 
     .filter-content { padding: 20px 15px; display: flex; flex-direction: column; gap: 20px; }
@@ -233,7 +233,6 @@
 
   <div id="filter-panel">
       <div class="filter-content">
-          
           <div class="filter-group">
               <div class="filter-label">Select Batch</div>
               <div class="filter-options">
@@ -241,7 +240,6 @@
                   <button class="toggle-btn" id="btn-A5" onclick="switchBatch('A5')">Batch A5</button>
               </div>
           </div>
-
            <div class="filter-group">
               <div class="filter-label">View Mode</div>
               <div class="filter-options">
@@ -249,7 +247,6 @@
                   <button class="toggle-btn" id="btn-table" onclick="setViewMode('table')">Table View</button>
               </div>
           </div>
-
           <div class="filter-group">
               <div class="filter-label">Jump to Day</div>
               <div class="filter-options" style="justify-content: space-between;">
@@ -261,7 +258,6 @@
                   <button class="day-btn" data-day="6" onclick="manualJumpToDay(6)">S</button>
               </div>
           </div>
-
       </div>
   </div>
 
@@ -273,9 +269,7 @@
   <div id="compact-container" class="view-container hidden-view">
       <table class="weekly-table">
           <thead>
-              <tr>
-                  <th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-              </tr>
+              <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
           </thead>
           <tbody></tbody>
       </table>
@@ -288,14 +282,14 @@
   <script src="timetable.js"></script>
 
   <script>
-    // --- FILTER PANEL TOGGLE ---
+    // --- UI LOGIC ---
     function toggleFilterPanel() {
         const panel = document.getElementById('filter-panel');
         const arrow = document.getElementById('filter-arrow');
         panel.classList.toggle('expanded');
         arrow.textContent = panel.classList.contains('expanded') ? '🔼' : '🔽';
     }
-    // Close panel when clicking outside (optional polish)
+    
     document.addEventListener('click', (e) => {
         const panel = document.getElementById('filter-panel');
         const btn = document.querySelector('.filter-toggle-btn');
@@ -304,8 +298,6 @@
         }
     });
 
-
-    // --- BATCH SWITCHING LOGIC ---
     function switchBatch(batchName) {
         localStorage.setItem('selectedBatch', batchName);
         updateBatchUI(batchName);
@@ -317,14 +309,11 @@
         document.getElementById(`btn-${batchName}`).classList.add('active');
     }
 
-    // --- VIEW MODE LOGIC ---
     function setViewMode(mode) {
         const swipeContainer = document.getElementById('timetable-container');
         const compactContainer = document.getElementById('compact-container');
-        
         document.getElementById('btn-swipe').classList.toggle('active', mode === 'swipe');
         document.getElementById('btn-table').classList.toggle('active', mode === 'table');
-
         if (mode === 'swipe') {
             swipeContainer.classList.remove('hidden-view');
             compactContainer.classList.add('hidden-view');
@@ -336,20 +325,14 @@
         localStorage.setItem('preferredView', mode);
     }
 
-    // --- INITIALIZE STATE ON LOAD ---
     window.addEventListener('DOMContentLoaded', () => {
-        // 1. Load Batch
         const savedBatch = localStorage.getItem('selectedBatch') || 'A6';
         updateBatchUI(savedBatch);
         if (window.updateBatchData) window.updateBatchData(savedBatch);
-
-        // 2. Load View Mode
         const savedView = localStorage.getItem('preferredView') || 'swipe';
         setViewMode(savedView);
     });
 
-
-    // --- THEME TOGGLE ---
     function toggleTheme() {
       const body = document.body;
       const currentTheme = body.getAttribute('data-theme');
@@ -361,30 +344,55 @@
       }
     }
 
-    // --- SWIPE & DAY JUMP LOGIC ---
+    // --- TOUCH & DRAG LOGIC (FIXED) ---
     const track = document.getElementById('daysTrack');
     const container = document.getElementById('timetable-container');
-    let isDragging = false, startX = 0, currentTranslate = 0, prevTranslate = 0, currentDayIndex = 0; const totalDays = 6;
+    let isDragging = false, startX = 0, startY = 0, currentTranslate = 0, prevTranslate = 0, currentDayIndex = 0; 
+    const totalDays = 6;
     
-    // Manual jump from Filter buttons
-    function manualJumpToDay(dayIndex) {
-        jumpToDay(dayIndex - 1); // Convert 1-6 to 0-5 index
-        // Optional: Close filters on selection
-        // toggleFilterPanel(); 
-    }
+    function manualJumpToDay(dayIndex) { jumpToDay(dayIndex - 1); }
 
     window.addEventListener('resize', () => { track.style.transition = 'none'; jumpToDay(currentDayIndex); });
 
-    track.addEventListener('touchstart', (e) => startDrag(e.touches[0].clientX));
-    track.addEventListener('touchmove', (e) => { if (isDragging) moveDrag(e.touches[0].clientX); }, { passive: false });
+    // TOUCH EVENTS
+    track.addEventListener('touchstart', (e) => {
+        startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        
+        // DIRECTION LOCKING: Only horizontal swipe if X movement > Y movement
+        if (Math.abs(currentX - startX) > Math.abs(currentY - startY)) {
+            e.preventDefault(); // Stop vertical scroll
+            moveDrag(currentX);
+        }
+    }, { passive: false });
+
     track.addEventListener('touchend', endDrag);
-    track.addEventListener('mousedown', (e) => { e.preventDefault(); startDrag(e.clientX); });
+
+    // MOUSE EVENTS
+    track.addEventListener('mousedown', (e) => { e.preventDefault(); startDrag(e.clientX, 0); });
     track.addEventListener('mousemove', (e) => { if (isDragging) { e.preventDefault(); moveDrag(e.clientX); } });
     track.addEventListener('mouseup', endDrag);
     track.addEventListener('mouseleave', () => { if(isDragging) endDrag(); });
 
-    function startDrag(clientX) { isDragging = true; startX = clientX; track.style.transition = 'none'; container.style.cursor = 'grabbing'; }
-    function moveDrag(clientX) { const diffX = clientX - startX; currentTranslate = prevTranslate + diffX; track.style.transform = `translateX(${currentTranslate}px)`; }
+    function startDrag(clientX, clientY) { 
+        isDragging = true; 
+        startX = clientX; 
+        startY = clientY; 
+        track.style.transition = 'none'; 
+        container.style.cursor = 'grabbing'; 
+    }
+
+    function moveDrag(clientX) { 
+        const diffX = clientX - startX; 
+        currentTranslate = prevTranslate + diffX; 
+        track.style.transform = `translateX(${currentTranslate}px)`; 
+    }
+
     function endDrag() {
         if (!isDragging) return; isDragging = false; container.style.cursor = 'grab';
         const movedBy = currentTranslate - prevTranslate; const threshold = window.innerWidth / 4; 
@@ -419,7 +427,6 @@
     }
     setInterval(highlightCurrentSlot, 60000);
 
-    // --- SERVICE WORKER ---
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.log("SW Fail", err)));
     }
