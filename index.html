@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>A6 Batch Timetable | Mass~MAHIT</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>A6 Batch Timetable</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     /* --- CSS VARIABLES --- */
@@ -16,21 +16,17 @@
       --border-color: #333;
       --accent-color: #bb86fc;
       --header-bg: #2c2c2c;
-      --header-text: #fff;
-      --hover-row: #252525;
       
-      /* Slot Colors (Dark Mode) */
-      --lec-color: #90caf9; /* Blue */
-      --tut-color: #ffcc80; /* Orange */
-      --lab-bg: #2c1b1b;
-      --lab-border: #ef9a9a; /* Red */
-      --lab-text: #ef9a9a;
+      /* Slot Type Markers */
+      --lec-marker: #90caf9; /* Blue */
+      --tut-marker: #ffcc80; /* Orange */
+      --lab-marker: #ef9a9a; /* Red */
+      
+      --active-glow: 0 0 15px rgba(187, 134, 252, 0.5);
 
-      --sticky-col-bg: #1e1e1e;
-      --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      
-      --btn-bg: #333;
-      --btn-text: #ffd700;
+      /* Break Card Colors */
+      --break-bg: #000000;
+      --break-border: #333;
     }
 
     [data-theme="light"] {
@@ -40,453 +36,648 @@
       --text-muted: #555555;
       --border-color: #e0e0e0;
       --accent-color: #6200ea;
-      --header-bg: #4caf50;
-      --header-text: #fff;
-      --hover-row: #f9f9f9;
+      --header-bg: #ffffff;
 
-      /* Slot Colors (Light Mode) */
-      --lec-color: #0d47a1;
-      --tut-color: #e65100;
-      --lab-bg: #fff3e0;
-      --lab-border: #c62828;
-      --lab-text: #c62828;
+      /* Slot Type Markers */
+      --lec-marker: #0d47a1;
+      --tut-marker: #e65100;
+      --lab-marker: #c62828;
 
-      --sticky-col-bg: #ffffff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.1);
-      
-      --btn-bg: #fff;
-      --btn-text: #6200ea;
+      --active-glow: 0 0 15px rgba(98, 0, 234, 0.4);
+
+      /* Break Card Colors Light */
+      --break-bg: #e0e0e0;
+      --break-border: #ccc;
     }
 
     /* --- GLOBAL --- */
-    * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+    * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease; }
     
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    /* --- HIGHLIGHT ACTIVE CLASS --- */
-    /* This makes the active class glow Gold */
-    .highlight-now {
-      border: 2px solid #ffd700 !important;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) inset !important;
-      background-color: rgba(255, 215, 0, 0.1) !important;
-      position: relative;
-      z-index: 5;
-    }
-    
-    .highlight-now::after {
-      content: "🔴 NOW";
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      font-size: 0.6rem;
-      background: red;
-      color: white;
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-weight: bold;
+      overflow: hidden; /* Prevent body scroll, handled by containers */
+      user-select: none; /* Prevents text highlighting while dragging on PC */
     }
 
     /* --- HEADER --- */
     header {
       width: 100%;
-      max-width: 1200px;
+      padding: 15px 20px;
+      background: var(--header-bg);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
-      padding: 0 10px;
+      border-bottom: 1px solid var(--border-color);
+      z-index: 10;
     }
 
     h1 {
       font-weight: 800;
-      font-size: 2rem;
+      font-size: 1.5rem;
       margin: 0;
       background: linear-gradient(90deg, var(--accent-color), #03dac6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
     .theme-toggle {
-      background: var(--btn-bg);
-      border: 2px solid var(--border-color);
-      color: var(--btn-text);
-      padding: 10px 20px;
-      border-radius: 30px;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.5rem;
       cursor: pointer;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 5px;
     }
 
-    /* --- TABLE --- */
-    .table-wrapper {
-      width: 100%;
-      max-width: 1400px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
+    /* --- MAIN SWIPE CONTAINER --- */
+    #timetable-container {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        cursor: grab; /* PC: Shows hand icon */
+        touch-action: pan-y; /* Allow vertical scroll, block horizontal for JS */
+    }
+    
+    #timetable-container:active {
+        cursor: grabbing; /* PC: Shows grabbing hand when clicking */
     }
 
-    .table-scroll { overflow-x: auto; width: 100%; padding-bottom: 5px; }
-
-    table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1100px; }
-
-    th, td {
-      padding: 14px 10px;
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
-      vertical-align: middle;
+    /* The track that slides left/right */
+    .days-track {
+        display: flex;
+        height: 100%;
+        width: 600vw; /* 6 days * 100vw */
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     }
 
-    th {
-      background-color: var(--header-bg);
-      color: var(--header-text);
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      height: 50px;
+    /* Individual Day View */
+    .day-view {
+        width: 100vw;
+        height: 100%;
+        overflow-y: auto; /* Vertical scroll for classes */
+        padding: 20px;
+        padding-bottom: 80px; /* Space for footer */
     }
 
-    td:first-child, th:first-child {
-      position: sticky;
-      left: 0;
-      z-index: 11;
-      background-color: var(--sticky-col-bg);
-      border-right: 3px solid var(--border-color);
-      font-weight: 800;
-      color: var(--accent-color);
-    }
-    th:first-child {
-      background-color: var(--header-bg);
-      color: var(--header-text);
-      z-index: 12;
+    .day-header {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: var(--accent-color);
+        text-align: center;
     }
 
-    /* --- CELLS --- */
-    .cell-content {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.95rem;
-      justify-content: center;
-      height: 100%;
+    /* --- CLASS CARD STYLE --- */
+    .class-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        user-select: none; /* Prevents text selection on drag */
+    }
+    
+    /* The colored bar on the left */
+    .class-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 6px;
+    }
+    .type-lec::before { background-color: var(--lec-marker); }
+    .type-tut::before { background-color: var(--tut-marker); }
+    .type-lab::before { background-color: var(--lab-marker); }
+
+    /* Active class highlight */
+    .class-card.active-now {
+        border: 2px solid var(--accent-color);
+        box-shadow: var(--active-glow);
     }
 
-    .subject { font-weight: 800; font-size: 1.1rem; }
-    .details { font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 2px; }
-    .room { 
-      display: inline-block; 
-      background: rgba(128,128,128,0.15); 
-      padding: 2px 6px; 
-      border-radius: 4px; 
-      font-weight: 700;
-      font-size: 0.75rem;
-      align-self: center;
-      border: 1px solid rgba(128,128,128,0.3);
-      margin-bottom: 2px;
+    .time-slot {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .lec .subject { color: var(--lec-color); }
-    .tut .subject { color: var(--tut-color); }
-    .lab { background-color: var(--lab-bg) !important; border-left: 5px solid var(--lab-text); }
-    .lab .subject { color: var(--lab-text); }
-
-    .lunch-col {
-      background-color: rgba(0,0,0,0.1);
-      color: var(--text-muted);
-      font-style: italic;
-      font-weight: 800;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      width: 45px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
+    .time-slot::before {
+        content: '•'; 
+        color: var(--accent-color);
+        font-size: 1.2rem;
     }
 
-    .footer { margin-top: 40px; color: var(--text-muted); text-align: center; }
+    .subject-name {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin: 5px 0;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px solid var(--border-color);
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+    
+    .info-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(128,128,128,0.1);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    /* --- BREAK CARD STYLE --- */
+    .break-card {
+        background: var(--break-bg);
+        border: 1px solid var(--break-border);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .break-header {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .break-time-text {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-family: monospace;
+    }
+    
+    .break-duration-text {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        opacity: 0.8;
+    }
+
+
+    .footer-sig {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+        background: var(--bg-color);
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-color);
+    }
     .signature { color: var(--accent-color); font-weight: 700; font-family: 'Courier New', monospace; }
 
-    @media (max-width: 768px) {
-      .theme-toggle span:not(#theme-icon) { display: none; }
-    }
   </style>
 </head>
 <body data-theme="dark">
 
   <header>
-    <h1>A6 Summer 2026</h1>
-    <button class="theme-toggle" onclick="toggleTheme()">
-      <span id="theme-icon">☀️</span> <span>Switch Theme</span>
+    <h1>A6 Planner</h1>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+      ☀️
     </button>
   </header>
 
-  <div class="table-wrapper">
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>09:00 - 10:00</th>
-            <th>10:00 - 11:00</th>
-            <th>11:00 - 12:00</th>
-            <th style="background:#333;">12-1</th>
-            <th>01:00 - 02:00</th>
-            <th>02:00 - 03:00</th>
-            <th>03:00 - 04:00</th>
-            <th>04:00 - 05:00</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>MON</td>
-            <td data-day="1" data-hour="9"></td>
-            <td colspan="2" class="lab" data-day="1" data-hour="10,11">
-              <div class="cell-content">
-                <span class="subject">Physics Lab-2 (LAB)</span>
-                <div class="details">
-                   <span class="room">PL2</span> 
-                   <span>Dr. Navendu / Dr. Indrani</span>
-                </div>
-              </div>
-            </td>
-            <td class="lunch-col" rowspan="6" data-hour="12">LUNCH</td>
-            <td data-day="1" data-hour="13"></td>
-            <td class="lec" data-day="1" data-hour="14">
-              <div class="cell-content">
-                <span class="subject">UHV (L)</span>
-                <div class="details">
-                  <span class="room">G1</span> 
-                  <span>Dr. Manoj Tripathi</span>
-                </div>
-              </div>
-            </td>
-            <td data-day="1" data-hour="15"></td>
-            <td data-day="1" data-hour="16"></td>
-          </tr>
+  <div id="timetable-container">
+      <div class="days-track" id="daysTrack">
 
-          <tr>
-            <td>TUE</td>
-            <td class="tut" data-day="2" data-hour="9">
-              <div class="cell-content">
-                <span class="subject">Workshop (T)</span>
-                <div class="details">
-                  <span class="room">TS16</span> 
-                  <span>GRP</span>
-                </div>
+          <div class="day-view" data-day-index="1">
+              <h2 class="day-header">Monday</h2>
+              
+              <div class="class-card type-lab" data-day="1" data-start-hour="10" data-end-hour="12">
+                  <div class="time-slot">10:00 AM - 12:00 PM</div>
+                  <div class="subject-name">Physics Lab-2</div>
+                  <div class="card-footer">
+                      <span class="info-badge">🏛️ PL2</span>
+                      <span class="info-badge">👨‍🏫 Dr. Navendu Goswami / Dr. Indrani</span>
+                      <span class="info-badge">LAB</span>
+                  </div>
               </div>
-            </td>
-            <td colspan="2" class="lab" data-day="2" data-hour="10,11">
-              <div class="cell-content">
-                <span class="subject">Workshop (LAB)</span>
-                <div class="details">
-                  <span class="room">EW2</span> 
-                  <span>GRP</span>
-                </div>
-              </div>
-            </td>
-            <td class="lec" data-day="2" data-hour="13">
-              <div class="cell-content">
-                <span class="subject">Maths-2 (L)</span>
-                <div class="details">
-                  <span class="room">G1</span> 
-                  <span>Dr. Arpita Nayek</span>
-                </div>
-              </div>
-            </td>
-            <td class="lec" data-day="2" data-hour="14">
-              <div class="cell-content">
-                <span class="subject">Physics-2 (L)</span>
-                <div class="details">
-                  <span class="room">G1</span> 
-                  <span>Dr. Sandeep Mishra</span>
-                </div>
-              </div>
-            </td>
-            <td class="lec" data-day="2" data-hour="15">
-              <div class="cell-content">
-                <span class="subject">SDF-2 (L)</span>
-                <div class="details">
-                  <span class="room">FF1</span> 
-                  <span>Rohit Kumar Soni</span>
-                </div>
-              </div>
-            </td>
-            <td data-day="2" data-hour="16"></td>
-          </tr>
 
-          <tr>
-            <td>WED</td>
-            <td class="tut" data-day="3" data-hour="9">
-              <div class="cell-content">
-                <span class="subject">UHV (T)</span>
-                <div class="details">
-                  <span class="room">F10</span> 
-                  <span>Dr. Yogita Naruka</span>
-                </div>
+              <div class="break-card">
+                <div class="break-header">Breaks in the Day</div>
+                <div class="break-time-text">01:00 PM - 02:00 PM </div>
+                <div class="break-duration-text">1 hr 0 min</div>
               </div>
-            </td>
-            <td data-day="3" data-hour="10"></td>
-            <td data-day="3" data-hour="11"></td>
-            <td class="lec" data-day="3" data-hour="13">
-              <div class="cell-content">
-                <span class="subject">Physics-2 (L)</span>
-                <div class="details">
-                  <span class="room">CS5</span> 
-                  <span>Dr. Sandeep Mishra</span>
-                </div>
-              </div>
-            </td>
-            <td class="lec" data-day="3" data-hour="14">
-              <div class="cell-content">
-                <span class="subject">Maths-2 (L)</span>
-                <div class="details">
-                  <span class="room">FF3</span> 
-                  <span>Dr. Arpita Nayek</span>
-                </div>
-              </div>
-            </td>
-            <td colspan="2" class="lab" data-day="3" data-hour="15,16">
-              <div class="cell-content">
-                <span class="subject">SDF Lab (LAB)</span>
-                <div class="details">
-                  <span class="room">CL02</span> 
-                  <span>Meenal Jain / Prateek</span>
-                </div>
-              </div>
-            </td>
-          </tr>
 
-          <tr>
-            <td>THU</td>
-            <td data-day="4" data-hour="9"></td>
-            <td class="lec" data-day="4" data-hour="10">
-              <div class="cell-content">
-                <span class="subject">SDF-2 (L)</span>
-                <div class="details">
-                  <span class="room">G1</span> 
-                  <span>Rohit Kumar Soni</span>
-                </div>
+              <div class="class-card type-lec" data-day="1" data-start-hour="13" data-end-hour="14">
+                  <div class="time-slot">02:00 PM - 03:00 PM</div>
+                  <div class="subject-name">UHV</div>
+                  <div class="card-footer">
+                      <span class="info-badge">🏛️ G1</span>
+                      <span class="info-badge">👨‍🏫 Dr. Manoj Tripathi</span>
+                      <span class="info-badge">Lecture</span>
+                  </div>
               </div>
-            </td>
-            <td class="lec" data-day="4" data-hour="11">
-              <div class="cell-content">
-                <span class="subject">UHV (L)</span>
-                <div class="details">
-                  <span class="room">G1</span> 
-                  <span>Dr. Manoj Tripathi</span>
-                </div>
-              </div>
-            </td>
-            <td colspan="2" class="lab" data-day="4" data-hour="13,14">
-              <div class="cell-content">
-                <span class="subject">Life Skills Lab</span>
-                <div class="details">
-                  <span class="room">LL</span> 
-                  <span>MM</span>
-                </div>
-              </div>
-            </td>
-            <td data-day="4" data-hour="15"></td>
-            <td data-day="4" data-hour="16"></td>
-          </tr>
+          </div>
 
-          <tr>
-            <td>FRI</td>
-            <td data-day="5" data-hour="9"></td>
-            <td data-day="5" data-hour="10"></td>
-            <td class="lec" data-day="5" data-hour="11">
-              <div class="cell-content">
-                <span class="subject">Physics-2 (L)</span>
-                <div class="details">
-                  <span class="room">FF4</span> 
-                  <span>Dr. Sandeep Mishra</span>
-                </div>
-              </div>
-            </td>
-            <td class="tut" data-day="5" data-hour="13">
-              <div class="cell-content">
-                <span class="subject">Physics-2 (T)</span>
-                <div class="details">
-                  <span class="room">TS8</span> 
-                  <span>Dr. Bhubesh</span>
-                </div>
-              </div>
-            </td>
-            <td class="tut" data-day="5" data-hour="14">
-              <div class="cell-content">
-                <span class="subject">Maths-2 (T)</span>
-                <div class="details">
-                  <span class="room">TS8</span> 
-                  <span>Dr. Neha Singhal</span>
-                </div>
-              </div>
-            </td>
-            <td class="tut" data-day="5" data-hour="15">
-              <div class="cell-content">
-                <span class="subject">SDF-2 (T)</span>
-                <div class="details">
-                  <span class="room">TS6</span> 
-                  <span>Shardha Porwal</span>
-                </div>
-              </div>
-            </td>
-            <td data-day="5" data-hour="16"></td>
-          </tr>
+          <div class="day-view" data-day-index="2">
+              <h2 class="day-header">Tuesday</h2>
 
-          <tr>
-            <td>SAT</td>
-            <td data-day="6" data-hour="9"></td>
-            <td class="lec" data-day="6" data-hour="10">
-              <div class="cell-content">
-                <span class="subject">SDF-2 (L)</span>
-                <div class="details">
-                  <span class="room">FF1</span> 
-                  <span>Rohit Kumar Soni</span>
-                </div>
+              <div class="class-card type-tut" data-day="2" data-start-hour="9" data-end-hour="10">
+                  <div class="time-slot">09:00 AM - 10:00 AM</div>
+                  <div class="subject-name">Workshop</div>
+                  <div class="card-footer">
+                      <span class="info-badge">🏛️ TS16</span>
+                      <span class="info-badge">👨‍🏫 Dr.Gorav Patel</span>
+                      <span class="info-badge">Tutorial</span>
+                  </div>
               </div>
-            </td>
-            <td class="lec" data-day="6" data-hour="11">
-              <div class="cell-content">
-                <span class="subject">Maths-2 (L)</span>
-                <div class="details">
-                  <span class="room">FF1</span> 
-                  <span>Dr. Arpita Nayek</span>
-                </div>
+
+              <div class="class-card type-lab" data-day="2" data-start-hour="10" data-end-hour="12">
+                  <div class="time-slot">10:00 AM - 12:00 PM</div>
+                  <div class="subject-name">Workshop Lab</div>
+                  <div class="card-footer">
+                      <span class="info-badge">🏛️ EW2</span>
+                      <span class="info-badge">👨‍🏫 Dr.Gorav Patel</span>
+                      <span class="info-badge">LAB</span>
+                  </div>
               </div>
-            </td>
-            <td data-day="6" data-hour="13"></td>
-            <td data-day="6" data-hour="14"></td>
-            <td data-day="6" data-hour="15"></td>
-            <td data-day="6" data-hour="16"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+
+               <div class="class-card type-lec" data-day="2" data-start-hour="13" data-end-hour="14">
+                <div class="time-slot">01:00 PM - 02:00 PM</div>
+                <div class="subject-name">Mathematics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ G1</span>
+                    <span class="info-badge">👨‍🏫 Dr. Arpita Nayek</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+             <div class="class-card type-lec" data-day="2" data-start-hour="14" data-end-hour="15">
+                <div class="time-slot">02:00 PM - 03:00 PM</div>
+                <div class="subject-name">Physics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ G1</span>
+                    <span class="info-badge">👨‍🏫 Dr. Sandeep Mishra</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+             <div class="class-card type-lec" data-day="2" data-start-hour="15" data-end-hour="16">
+                <div class="time-slot">03:00 PM - 04:00 PM</div>
+                <div class="subject-name">SDF-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ FF1</span>
+                    <span class="info-badge">👨‍🏫 Rohit Kumar Sony</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+          </div>
+
+          <div class="day-view" data-day-index="3">
+              <h2 class="day-header">Wednesday</h2>
+              <div class="class-card type-tut" data-day="3" data-start-hour="9" data-end-hour="10">
+                <div class="time-slot">09:00 AM - 10:00 AM</div>
+                <div class="subject-name">UHV</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ F10</span>
+                    <span class="info-badge">👨‍🏫 Dr. Yogita Naruka</span>
+                    <span class="info-badge">Tutorial</span>
+                </div>
+            </div>
+
+            <div class="break-card">
+                <div class="break-header">Breaks in the Day</div>
+                <div class="break-time-text">10:00 AM - 12:00 PM</div>
+                <div class="break-duration-text">2 hr 0 min</div>
+            </div>
+
+             <div class="class-card type-lec" data-day="3" data-start-hour="12" data-end-hour="13">
+                <div class="time-slot">01:00 PM - 02:00 PM</div>
+                <div class="subject-name">Physics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ CS5</span>
+                    <span class="info-badge">👨‍🏫 Dr. Sandeep Mishra</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+             <div class="class-card type-lec" data-day="3" data-start-hour="13" data-end-hour="14">
+                <div class="time-slot">02:00 PM - 03:00 PM</div>
+                <div class="subject-name">Mathematics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ FF3</span>
+                    <span class="info-badge">👨‍🏫 Dr. Arpita Nayek</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+            <div class="class-card type-lab" data-day="3" data-start-hour="14" data-end-hour="16">
+                <div class="time-slot">03:00 PM - 05:00 PM</div>
+                <div class="subject-name">SDF Lab</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ CL02</span>
+                    <span class="info-badge">👨‍🏫 Meenal J / Prateek K S</span>
+                    <span class="info-badge">LAB</span>
+                </div>
+            </div>
+          </div>
+
+           <div class="day-view" data-day-index="4">
+            <h2 class="day-header">Thursday</h2>
+            <div class="class-card type-lec" data-day="4" data-start-hour="10" data-end-hour="11">
+                <div class="time-slot">10:00 AM - 11:00 AM</div>
+                <div class="subject-name">SDF-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ G1</span>
+                    <span class="info-badge">👨‍🏫 Rohit Kumar Sony</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+             <div class="class-card type-lec" data-day="4" data-start-hour="11" data-end-hour="12">
+                <div class="time-slot">11:00 AM - 12:00 PM</div>
+                <div class="subject-name">UHV</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ G1</span>
+                    <span class="info-badge">👨‍🏫 Dr. Manoj Tripathi</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+            <div class="class-card type-lab" data-day="4" data-start-hour="12" data-end-hour="14">
+                <div class="time-slot">01:00 PM - 03:00 PM</div>
+                <div class="subject-name">Life Skills Lab</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ LL</span>
+                    <span class="info-badge">👨‍🏫 Prof. Mukta Mani</span>
+                    <span class="info-badge">LAB</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-view" data-day-index="5">
+            <h2 class="day-header">Friday</h2>
+            <div class="class-card type-lec" data-day="5" data-start-hour="11" data-end-hour="12">
+                <div class="time-slot">11:00 AM - 12:00 PM</div>
+                <div class="subject-name">Physics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ FF4</span>
+                    <span class="info-badge">👨‍🏫 Dr. Sandeep Mishra</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+             <div class="class-card type-tut" data-day="5" data-start-hour="12" data-end-hour="13">
+                <div class="time-slot">01:00 PM - 02:00 PM</div>
+                <div class="subject-name">Physics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ TS8</span>
+                    <span class="info-badge">👨‍🏫 Dr. B. C. Joshi</span>
+                    <span class="info-badge">Tutorial</span>
+                </div>
+            </div>
+
+             <div class="class-card type-tut" data-day="5" data-start-hour="13" data-end-hour="14">
+                <div class="time-slot">02:00 PM - 03:00 PM</div>
+                <div class="subject-name">Mathematics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ TS8</span>
+                    <span class="info-badge">👨‍🏫 Dr. Neha Singhal</span>
+                    <span class="info-badge">Tutorial</span>
+                </div>
+            </div>
+
+            <div class="class-card type-tut" data-day="5" data-start-hour="14" data-end-hour="15">
+                <div class="time-slot">03:00 PM - 04:00 PM</div>
+                <div class="subject-name">SDF-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ TS6</span>
+                    <span class="info-badge">👨‍🏫 Shardha Porwal</span>
+                    <span class="info-badge">Tutorial</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-view" data-day-index="6">
+            <h2 class="day-header">Saturday</h2>
+             <div class="class-card type-lec" data-day="6" data-start-hour="10" data-end-hour="11">
+                <div class="time-slot">10:00 AM - 11:00 AM</div>
+                <div class="subject-name">SDF-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ FF1</span>
+                    <span class="info-badge">👨‍🏫 Rohit Kumar Sony</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+
+             <div class="class-card type-lec" data-day="6" data-start-hour="11" data-end-hour="12">
+                <div class="time-slot">11:00 AM - 12:00 PM</div>
+                <div class="subject-name">Mathematics-2</div>
+                <div class="card-footer">
+                    <span class="info-badge">🏛️ FF1</span>
+                    <span class="info-badge">👨‍🏫 Dr. Arpita Nayek</span>
+                    <span class="info-badge">Lecture</span>
+                </div>
+            </div>
+        </div>
+
+      </div> </div> <div class="footer-sig">
+    Made by <span class="signature">Mass~MAHIT</span> | Swipe left/right for days
   </div>
 
-  <div class="footer">
-    Made by <span class="signature">Mass~MAHIT</span>
-  </div>
 
-  <script src="script.js"></script>
+  <script>
+    // --- THEME TOGGLE ---
+    function toggleTheme() {
+      const body = document.body;
+      const currentTheme = body.getAttribute('data-theme');
+      const btn = document.getElementById('theme-btn');
+      
+      if (currentTheme === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        btn.textContent = '🌙';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        btn.textContent = '☀️';
+      }
+    }
+
+    // --- SWIPE LOGIC (Touch + Mouse) ---
+    const track = document.getElementById('daysTrack');
+    const container = document.getElementById('timetable-container');
+    
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let currentDayIndex = 0; 
+    const totalDays = 6;
+
+    // Set initial view
+    const today = new Date().getDay(); 
+    let initialDayIndex = (today === 0 || today > 6) ? 0 : today - 1;
+    jumpToDay(initialDayIndex);
+
+
+    // Touch Events
+    track.addEventListener('touchstart', touchStart);
+    track.addEventListener('touchmove', touchMove, { passive: false }); 
+    track.addEventListener('touchend', touchEnd);
+
+    // Mouse Events (PC)
+    track.addEventListener('mousedown', mouseStart);
+    track.addEventListener('mousemove', mouseMove);
+    track.addEventListener('mouseup', mouseEnd);
+    track.addEventListener('mouseleave', () => {
+        if(isDragging) mouseEnd(); 
+    });
+
+    // 1. START
+    function touchStart(event) {
+        startDrag(event.touches[0].clientX, event.touches[0].clientY);
+    }
+    function mouseStart(event) {
+        event.preventDefault(); 
+        startDrag(event.clientX, event.clientY);
+    }
+
+    function startDrag(clientX, clientY) {
+        isDragging = true;
+        startX = clientX;
+        startY = clientY; 
+        track.style.transition = 'none'; 
+        container.style.cursor = 'grabbing';
+    }
+
+    // 2. MOVE
+    function touchMove(event) {
+        if (!isDragging) return;
+        
+        const currentX = event.touches[0].clientX;
+        const currentY = event.touches[0].clientY;
+        const diffX = Math.abs(currentX - startX);
+        const diffY = Math.abs(currentY - startY);
+
+        // DIRECTION LOCKING LOGIC:
+        // Only swipe if Horizontal movement is greater than Vertical movement
+        if (diffX > diffY) {
+            event.preventDefault(); // Stop vertical scroll
+            moveDrag(currentX);
+        }
+    }
+
+    function mouseMove(event) {
+        if (isDragging) {
+            event.preventDefault();
+            moveDrag(event.clientX);
+        }
+    }
+
+    function moveDrag(clientX) {
+        const currentX = clientX;
+        const diffX = currentX - startX;
+        currentTranslate = prevTranslate + diffX;
+        
+        // Resistance at edges
+        // (Removed resistance to allow checking for loop thresholds)
+        
+        track.style.transform = `translateX(${currentTranslate}px)`;
+    }
+
+    // 3. END
+    function touchEnd() {
+        endDrag();
+    }
+    function mouseEnd() {
+        endDrag();
+    }
+
+    function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        container.style.cursor = 'grab';
+        
+        const movedBy = currentTranslate - prevTranslate;
+        const threshold = window.innerWidth / 4; 
+
+        track.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)';
+
+        // LOOP LOGIC
+        if (movedBy < -threshold) {
+            // Swiped Left (Next Day)
+            if (currentDayIndex < totalDays - 1) {
+                currentDayIndex++;
+            } else {
+                currentDayIndex = 0; // Loop back to Monday
+            }
+        } else if (movedBy > threshold) {
+            // Swiped Right (Previous Day)
+            if (currentDayIndex > 0) {
+                currentDayIndex--;
+            } else {
+                currentDayIndex = totalDays - 1; // Loop to Saturday
+            }
+        }
+        
+        jumpToDay(currentDayIndex);
+    }
+
+    function jumpToDay(index) {
+        currentDayIndex = index;
+        currentTranslate = index * -window.innerWidth;
+        prevTranslate = currentTranslate;
+        track.style.transform = `translateX(${currentTranslate}px)`;
+        highlightCurrentSlot(); 
+    }
+
+
+    // --- CURRENT SLOT HIGHLIGHTING ---
+    function highlightCurrentSlot() {
+      const now = new Date();
+      const currentDay = now.getDay(); 
+      const currentHour = now.getHours();
+
+      document.querySelectorAll('.class-card.active-now').forEach(el => el.classList.remove('active-now'));
+
+      const todaysCards = document.querySelectorAll(`.class-card[data-day="${currentDay}"]`);
+
+      todaysCards.forEach(card => {
+          const startHour = parseInt(card.getAttribute('data-start-hour'));
+          let endHour = parseInt(card.getAttribute('data-end-hour'));
+          if (isNaN(endHour)) endHour = startHour + 1;
+
+          if (currentHour >= startHour && currentHour < endHour) {
+              card.classList.add('active-now');
+              if (currentDayIndex === (currentDay - 1)) {
+                  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+          }
+      });
+    }
+
+    setInterval(highlightCurrentSlot, 60000);
+    setTimeout(highlightCurrentSlot, 100); 
+
+  </script>
 </body>
 </html>
