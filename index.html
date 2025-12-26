@@ -9,199 +9,227 @@
   <link rel="icon" type="image/png" href="Logo.png">
   <link rel="apple-touch-icon" href="Logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-   
+  
   <style>
     /* --- CSS VARIABLES --- */
     :root {
-      --bg-color: #121212; --card-bg: #1e1e1e; --text-main: #e0e0e0; --text-muted: #a0a0a0;
-      --border-color: #333; --accent-color: #bb86fc; --accent-hover: #9965f4; --header-bg: #2c2c2c;
-      --lec-marker: #90caf9; --tut-marker: #ffcc80; --lab-marker: #ef9a9a; --break-marker: #424242; 
-      --active-glow: 0 0 15px rgba(187, 134, 252, 0.5);
-      --break-bg: #000000; --break-border: #333;
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-main: #e0e0e0;
+      --text-muted: #a0a0a0;
+      --border-color: #333;
+      --accent-color: #bb86fc;
+      --accent-hover: #9965f4;
+      --header-bg: #2c2c2c;
       
-      /* New Height Variables for calculation */
-      --main-header-h: 60px;
-      --sub-header-h: 40px;
-      --total-header-h: 100px; /* 60 + 40 */
-      --bottom-nav-height: 65px;
+      /* Slot Type Markers */
+      --lec-marker: #90caf9;
+      --tut-marker: #ffcc80;
+      --lab-marker: #ef9a9a;
+      --break-marker: #424242; 
+      
+      --active-glow: 0 0 15px rgba(187, 134, 252, 0.5);
+
+      /* Break Card Colors */
+      --break-bg: #000000;
+      --break-border: #333;
     }
 
     [data-theme="light"] {
-      --bg-color: #f0f2f5; --card-bg: #ffffff; --text-main: #333333; --text-muted: #555555;
-      --border-color: #e0e0e0; --accent-color: #6200ea; --accent-hover: #5000c9; --header-bg: #ffffff;
-      --lec-marker: #0d47a1; --tut-marker: #e65100; --lab-marker: #c62828; --break-marker: #9e9e9e;
+      --bg-color: #f0f2f5;
+      --card-bg: #ffffff;
+      --text-main: #333333;
+      --text-muted: #555555;
+      --border-color: #e0e0e0;
+      --accent-color: #6200ea;
+      --accent-hover: #5000c9;
+      --header-bg: #ffffff;
+
+      /* Slot Type Markers */
+      --lec-marker: #0d47a1;
+      --tut-marker: #e65100;
+      --lab-marker: #c62828;
+      --break-marker: #9e9e9e;
+
       --active-glow: 0 0 15px rgba(98, 0, 234, 0.4);
-      --break-bg: #e0e0e0; --break-border: #ccc;
+
+      /* Break Card Colors Light */
+      --break-bg: #e0e0e0;
+      --break-border: #ccc;
     }
 
+    /* --- GLOBAL --- */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    body { 
-        font-family: 'Inter', sans-serif; 
-        background-color: var(--bg-color); 
-        color: var(--text-main); 
-        margin: 0; 
-        padding: 0; 
-        height: 100vh; height: 100dvh; 
-        width: 100vw; 
-        display: flex; 
-        flex-direction: column; 
-        overflow: hidden; 
-        user-select: none; 
-    }
-    
-    /* --- NEW FIXED DOUBLE HEADER WRAPPER --- */
-    .header-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000; /* Stacks on top of everything */
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      height: 100dvh; 
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; 
+      user-select: none; 
     }
 
-    /* 1. Main Header (Top) */
-    .main-header { 
-        width: 100%; 
-        height: var(--main-header-h); 
-        padding: 0 15px; 
-        background: var(--header-bg); 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        border-bottom: 1px solid var(--border-color); 
+    /* --- HEADER --- */
+    header {
+      flex: 0 0 auto; 
+      width: 100%;
+      height: 70px; 
+      padding: 0 15px;
+      background: var(--header-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+      position: relative;
     }
-    
-    .brand-container { display: flex; align-items: center; gap: 15px; }
-    .app-logo { height: 40px; width: 40px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color); }
-    h1 { font-weight: 800; font-size: 1.3rem; margin: 0; background: linear-gradient(90deg, var(--accent-color), #03dac6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .brand-container {
+        display: flex; align-items: center; gap: 15px; 
+    }
+    .app-logo {
+        height: 45px; width: 45px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color);
+    }
+    h1 {
+      font-weight: 800; font-size: 1.3rem; margin: 0;
+      background: linear-gradient(90deg, var(--accent-color), #03dac6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
     .header-controls { display: flex; gap: 10px; align-items: center; }
-    .icon-btn { background: transparent; border: none; color: var(--text-main); font-size: 1.4rem; cursor: pointer; padding: 8px; }
 
-    /* 2. Sub Header (Below Main) */
-    .sub-header {
+    .icon-btn {
+      background: transparent; border: none; color: var(--text-main);
+      font-size: 1.4rem; cursor: pointer; padding: 8px;
+    }
+
+    /* --- NEW FILTER BUTTON & PANEL --- */
+    .filter-toggle-btn {
+        background: var(--accent-color); color: #fff;
+        border: none; padding: 8px 16px; border-radius: 20px;
+        font-weight: 700; font-size: 0.9rem; cursor: pointer;
+        display: flex; align-items: center; gap: 6px;
+        transition: background 0.2s;
+    }
+    .filter-toggle-btn:hover { background: var(--accent-hover); }
+
+    #filter-panel {
+        background: var(--header-bg);
         width: 100%;
-        height: var(--sub-header-h);
-        background: var(--card-bg); /* Slightly different color */
-        display: flex;
-        justify-content: center; /* Center the text */
-        align-items: center;
-        gap: 15px;
+        max-height: 0; 
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
         border-bottom: 1px solid var(--border-color);
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--text-muted);
+        position: relative; z-index: 90;
+        flex: 0 0 auto; 
     }
     
-    /* Dynamic text in sub-header */
-    .sub-batch { color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; }
-    .sub-day { color: var(--text-main); }
+    #filter-panel.expanded {
+        max-height: 300px; 
+    }
 
+    .filter-content { padding: 20px 15px; display: flex; flex-direction: column; gap: 20px; }
+
+    .filter-group { display: flex; flex-direction: column; gap: 8px; }
+    .filter-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .filter-options { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* Filter Toggle Buttons (Batch/View) */
+    .toggle-btn {
+        flex: 1; text-align: center; padding: 10px;
+        background: var(--card-bg); border: 2px solid var(--border-color);
+        color: var(--text-muted); font-weight: 600; border-radius: 10px;
+        cursor: pointer; transition: all 0.2s; min-width: 80px;
+    }
+    .toggle-btn.active {
+        background: rgba(187, 134, 252, 0.15); color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+    
+    /* Day Selection Buttons */
+    .day-btn {
+        width: 45px; height: 45px; border-radius: 50%;
+        background: var(--card-bg); border: 2px solid var(--border-color);
+        color: var(--text-muted); font-weight: 700; font-size: 0.9rem;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.2s;
+    }
+    .day-btn.active-day {
+        background: var(--accent-color); color: #fff; border-color: var(--accent-color);
+        box-shadow: 0 4px 12px rgba(187, 134, 252, 0.3);
+    }
 
     /* --- VIEW CONTAINERS --- */
-    .view-container { 
-        flex: 1; 
-        position: relative; 
-        overflow: hidden; 
-        width: 100%; 
-        /* CRITICAL: Push content down by the total height of the double header */
-        margin-top: var(--total-header-h); 
-        /* Adjust height calculation to fit between header and bottom nav */
-        height: calc(100vh - var(--total-header-h) - var(--bottom-nav-height));
-    }
-
+    .view-container { flex: 1; position: relative; overflow: hidden; width: 100%; }
     .hidden-view { display: none !important; }
-    #timetable-container { cursor: grab; touch-action: pan-y; } #timetable-container:active { cursor: grabbing; }
+
+    /* --- SWIPE VIEW STYLES --- */
+    #timetable-container { cursor: grab; touch-action: pan-y; }
+    #timetable-container:active { cursor: grabbing; }
     .days-track { display: flex; height: 100%; width: 600vw; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1); }
-    
-    /* Day View Adjustment */
-    .day-view { 
-        width: 100vw; 
-        height: 100%; 
-        overflow-y: auto; 
-        padding: 15px; 
-        padding-bottom: 100px; /* Extra padding for scrolling past bottom nav */
-    }
-    
-    .day-header { display: none; /* Hidden because we have the sub-header now */ }
-    
+    .day-view { width: 100vw; height: 100%; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
+    .day-header { font-size: 1.5rem; font-weight: 800; margin: 10px 0 20px; color: var(--accent-color); text-align: center; }
+
     .class-card { background: var(--card-bg); border-radius: 16px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border-color); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
     .class-card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px; }
-    .type-lec::before { background-color: var(--lec-marker); } .type-tut::before { background-color: var(--tut-marker); } .type-lab::before { background-color: var(--lab-marker); }
+    .type-lec::before { background-color: var(--lec-marker); }
+    .type-tut::before { background-color: var(--tut-marker); }
+    .type-lab::before { background-color: var(--lab-marker); }
     .class-card.active-now { border: 2px solid var(--accent-color); box-shadow: var(--active-glow); }
+
     .time-slot { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .time-slot::before { content: '•'; color: var(--accent-color); font-size: 1rem; }
     .subject-name { font-size: 1.2rem; font-weight: 800; margin: 4px 0; }
     .card-footer { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-muted); }
     .info-badge { display: flex; align-items: center; gap: 4px; background: rgba(128,128,128,0.1); padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+
     .break-card { background: var(--break-bg); border: 1px solid var(--break-border); border-radius: 16px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px; }
     .break-header { font-size: 1rem; font-weight: 700; color: var(--text-main); }
     .break-time-text { font-size: 0.85rem; color: var(--text-muted); font-family: monospace; }
+    .break-duration-text { font-size: 0.8rem; color: var(--text-muted); opacity: 0.8; }
 
-    /* TABLE VIEW */
-    #compact-container { overflow: auto; padding: 0; padding-bottom: 120px; background-color: var(--bg-color); }
+    /* --- COMPACT TABLE VIEW --- */
+    #compact-container { overflow: auto; padding: 0; padding-bottom: 60px; background-color: var(--bg-color); }
     .weekly-table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 600px; }
     .weekly-table th, .weekly-table td { padding: 10px 6px; text-align: center; vertical-align: middle; font-size: 0.8rem; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); color: var(--text-main); }
-    
-    /* Table Headers Sticky Config */
     .weekly-table thead th { position: sticky; top: 0; background-color: var(--header-bg); z-index: 20; border-bottom: 2px solid var(--border-color); font-weight: 800; text-transform: uppercase; font-size: 0.75rem; }
     .weekly-table tbody td:first-child { position: sticky; left: 0; background-color: var(--card-bg); z-index: 10; border-right: 2px solid var(--border-color); font-weight: bold; color: var(--accent-color); min-width: 75px; }
     .weekly-table thead th:first-child { position: sticky; top: 0; left: 0; z-index: 30; background-color: var(--header-bg); border-right: 2px solid var(--border-color); }
-    
-    .cell-lec { background-color: rgba(144, 202, 249, 0.15); border-left: 3px solid var(--lec-marker) !important; } .cell-tut { background-color: rgba(255, 204, 128, 0.15); border-left: 3px solid var(--tut-marker) !important; } .cell-lab { background-color: rgba(239, 154, 154, 0.15); border-left: 3px solid var(--lab-marker) !important; } .cell-break { background-color: var(--break-bg); opacity: 0.7; } .cell-empty { background-color: transparent; }
-    .cell-subject { font-weight: 700; display: block; margin-bottom: 2px; font-size: 0.85rem;} .cell-room { font-size: 0.7rem; color: var(--text-muted); display: block; }
+    .cell-lec { background-color: rgba(144, 202, 249, 0.15); border-left: 3px solid var(--lec-marker) !important; }
+    .cell-tut { background-color: rgba(255, 204, 128, 0.15); border-left: 3px solid var(--tut-marker) !important; }
+    .cell-lab { background-color: rgba(239, 154, 154, 0.15); border-left: 3px solid var(--lab-marker) !important; }
+    .cell-break { background-color: var(--break-bg); opacity: 0.7; }
+    .cell-empty { background-color: transparent; }
+    .cell-subject { font-weight: 700; display: block; margin-bottom: 2px; font-size: 0.85rem;}
+    .cell-room { font-size: 0.7rem; color: var(--text-muted); display: block; }
 
-    /* LAYOUT - BOTTOM STACK */
-    #filter-panel { position: fixed; bottom: calc(var(--bottom-nav-height) + 5px); left: 0; width: 100%; background: var(--header-bg); border-top: 1px solid var(--border-color); border-top-left-radius: 20px; border-top-right-radius: 20px; transform: translateY(120%); transition: transform 0.3s cubic-bezier(0.1, 0.7, 0.1, 1); z-index: 190; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); max-height: 60vh; overflow-y: auto; }
-    #filter-panel.expanded { transform: translateY(0); }
-    .filter-content { padding: 25px 20px; display: flex; flex-direction: column; gap: 20px; }
-    .filter-group { display: flex; flex-direction: column; gap: 8px; }
-    .filter-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .filter-options { display: flex; flex-wrap: wrap; gap: 10px; }
-    .toggle-btn { flex: 1; text-align: center; padding: 12px; background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.2s; min-width: 80px; }
-    .toggle-btn.active { background: rgba(187, 134, 252, 0.15); color: var(--accent-color); border-color: var(--accent-color); }
-    .day-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-muted); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-    .day-btn.active-day { background: var(--accent-color); color: #fff; border-color: var(--accent-color); box-shadow: 0 4px 12px rgba(187, 134, 252, 0.3); }
-
-    .footer-sig { position: fixed; bottom: var(--bottom-nav-height); left: 0; width: 100%; text-align: center; padding: 8px; background: var(--bg-color); color: var(--text-muted); border-top: 1px solid var(--border-color); z-index: 180; font-size: 0.75rem; }
+    /* --- FOOTER --- */
+    .footer-sig { position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; padding: 10px; background: var(--bg-color); color: var(--text-muted); border-top: 1px solid var(--border-color); z-index: 200; padding-bottom: calc(10px + env(safe-area-inset-bottom)); font-size: 0.8rem; }
     .signature { color: var(--accent-color); font-weight: 700; }
-    
-    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--bottom-nav-height); background: var(--header-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; padding: 0 20px; padding-bottom: env(safe-area-inset-bottom); z-index: 200; box-shadow: 0 -2px 10px rgba(0,0,0,0.2); }
-    .filter-fab { background: var(--accent-color); color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(187, 134, 252, 0.4); transition: transform 0.2s; width: 100%; justify-content: center;}
-    .filter-fab:active { transform: scale(0.95); }
+
   </style>
 </head>
 <body data-theme="dark">
 
-  <div class="header-wrapper">
-    <div class="main-header">
-      <div class="brand-container">
+  <header>
+    <div class="brand-container">
         <img src="Logo.png" alt="Logo" class="app-logo">
         <h1>Planner</h1>
-      </div>
-      <div class="header-controls">
+    </div>
+    <div class="header-controls">
+        <button class="filter-toggle-btn" onclick="toggleFilterPanel()">
+            FILTERS <span id="filter-arrow">🔽</span>
+        </button>
         <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">☀</button>
-      </div>
     </div>
-    <div class="sub-header">
-      <span class="sub-batch" id="header-batch">BATCH A6</span>
-      <span style="opacity: 0.3">|</span>
-      <span class="sub-day" id="header-day">Monday</span>
-    </div>
-  </div>
-
-  <div id="timetable-container" class="view-container">
-      <div class="days-track" id="daysTrack"></div> 
-  </div>
-
-  <div id="compact-container" class="view-container hidden-view">
-      <table class="weekly-table">
-          <thead><tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
-          <tbody></tbody>
-      </table>
-  </div>
+  </header>
 
   <div id="filter-panel">
       <div class="filter-content">
@@ -212,7 +240,7 @@
                   <button class="toggle-btn" id="btn-A5" onclick="switchBatch('A5')">Batch A5</button>
               </div>
           </div>
-          <div class="filter-group">
+           <div class="filter-group">
               <div class="filter-label">View Mode</div>
               <div class="filter-options">
                   <button class="toggle-btn active" id="btn-swipe" onclick="setViewMode('swipe')">Swipe Cards</button>
@@ -233,35 +261,49 @@
       </div>
   </div>
 
-  <div class="footer-sig">Made by <span class="signature">Mass~MAHIT</span> | Swipe left/right for days</div>
 
-  <div class="bottom-nav">
-      <button class="filter-fab" onclick="toggleFilterPanel()">OPEN FILTERS <span id="filter-arrow">🔼</span></button>
+  <div id="timetable-container" class="view-container">
+      <div class="days-track" id="daysTrack"></div> 
+  </div>
+
+  <div id="compact-container" class="view-container hidden-view">
+      <table class="weekly-table">
+          <thead>
+              <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          </thead>
+          <tbody></tbody>
+      </table>
+  </div>
+
+  <div class="footer-sig">
+    Made by <span class="signature">Mass~MAHIT</span> | Swipe left/right for days
   </div>
 
   <script src="timetable.js"></script>
 
   <script>
-    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    
+    // --- UI LOGIC ---
     function toggleFilterPanel() {
         const panel = document.getElementById('filter-panel');
         const arrow = document.getElementById('filter-arrow');
         panel.classList.toggle('expanded');
-        arrow.textContent = panel.classList.contains('expanded') ? '🔽' : '🔼';
+        arrow.textContent = panel.classList.contains('expanded') ? '🔼' : '🔽';
     }
+    
     document.addEventListener('click', (e) => {
         const panel = document.getElementById('filter-panel');
-        const btn = document.querySelector('.filter-fab');
-        if (panel.classList.contains('expanded') && !panel.contains(e.target) && !btn.contains(e.target)) toggleFilterPanel();
+        const btn = document.querySelector('.filter-toggle-btn');
+        if (panel.classList.contains('expanded') && !panel.contains(e.target) && !btn.contains(e.target)) {
+            toggleFilterPanel();
+        }
     });
 
     function switchBatch(batchName) {
         localStorage.setItem('selectedBatch', batchName);
         updateBatchUI(batchName);
         if (window.updateBatchData) window.updateBatchData(batchName);
-        updateHeaderInfo();
     }
+
     function updateBatchUI(batchName) {
         document.querySelectorAll('.filter-options .toggle-btn[id^="btn-A"]').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`btn-${batchName}`).classList.add('active');
@@ -273,69 +315,84 @@
         document.getElementById('btn-swipe').classList.toggle('active', mode === 'swipe');
         document.getElementById('btn-table').classList.toggle('active', mode === 'table');
         if (mode === 'swipe') {
-            swipeContainer.classList.remove('hidden-view'); compactContainer.classList.add('hidden-view');
+            swipeContainer.classList.remove('hidden-view');
+            compactContainer.classList.add('hidden-view');
             setTimeout(() => jumpToDay(currentDayIndex), 50);
         } else {
-            swipeContainer.classList.add('hidden-view'); compactContainer.classList.remove('hidden-view');
+            swipeContainer.classList.add('hidden-view');
+            compactContainer.classList.remove('hidden-view');
         }
         localStorage.setItem('preferredView', mode);
-    }
-
-    /* UPDATED FUNCTION: Updates the TOP Sub-Header instead of Bottom Nav */
-    function updateHeaderInfo() {
-        const batch = localStorage.getItem('selectedBatch') || 'A6';
-        const dayName = dayNames[currentDayIndex + 1]; 
-        
-        // Updating the new IDs in the sub-header
-        document.getElementById('header-batch').textContent = `BATCH ${batch}`;
-        document.getElementById('header-day').textContent = dayName;
     }
 
     window.addEventListener('DOMContentLoaded', () => {
         const savedBatch = localStorage.getItem('selectedBatch') || 'A6';
         updateBatchUI(savedBatch);
-        
-        // Safety: If JS hasn't loaded yet, try again in 500ms
-        if (window.updateBatchData) {
-            window.updateBatchData(savedBatch);
-        } else {
-            setTimeout(() => { if(window.updateBatchData) window.updateBatchData(savedBatch); }, 500);
-        }
-
+        if (window.updateBatchData) window.updateBatchData(savedBatch);
         const savedView = localStorage.getItem('preferredView') || 'swipe';
         setViewMode(savedView);
-        setTimeout(updateHeaderInfo, 100);
     });
 
     function toggleTheme() {
-      const body = document.body; const currentTheme = body.getAttribute('data-theme'); const btn = document.getElementById('theme-btn');
-      if (currentTheme === 'dark') { body.setAttribute('data-theme', 'light'); btn.textContent = '🌙'; } 
-      else { body.setAttribute('data-theme', 'dark'); btn.textContent = '☀'; }
+      const body = document.body;
+      const currentTheme = body.getAttribute('data-theme');
+      const btn = document.getElementById('theme-btn');
+      if (currentTheme === 'dark') {
+        body.setAttribute('data-theme', 'light'); btn.textContent = '🌙';
+      } else {
+        body.setAttribute('data-theme', 'dark'); btn.textContent = '☀';
+      }
     }
 
+    // --- TOUCH & DRAG LOGIC (FIXED) ---
     const track = document.getElementById('daysTrack');
     const container = document.getElementById('timetable-container');
     let isDragging = false, startX = 0, startY = 0, currentTranslate = 0, prevTranslate = 0, currentDayIndex = 0; 
     const totalDays = 6;
+    
     function manualJumpToDay(dayIndex) { jumpToDay(dayIndex - 1); }
 
     window.addEventListener('resize', () => { track.style.transition = 'none'; jumpToDay(currentDayIndex); });
 
-    track.addEventListener('touchstart', (e) => { startDrag(e.touches[0].clientX, e.touches[0].clientY); });
+    // TOUCH EVENTS
+    track.addEventListener('touchstart', (e) => {
+        startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
     track.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
-        const currentX = e.touches[0].clientX; const currentY = e.touches[0].clientY;
-        if (Math.abs(currentX - startX) > Math.abs(currentY - startY)) { e.preventDefault(); moveDrag(currentX); }
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        
+        // DIRECTION LOCKING: Only horizontal swipe if X movement > Y movement
+        if (Math.abs(currentX - startX) > Math.abs(currentY - startY)) {
+            e.preventDefault(); // Stop vertical scroll
+            moveDrag(currentX);
+        }
     }, { passive: false });
+
     track.addEventListener('touchend', endDrag);
 
+    // MOUSE EVENTS
     track.addEventListener('mousedown', (e) => { e.preventDefault(); startDrag(e.clientX, 0); });
     track.addEventListener('mousemove', (e) => { if (isDragging) { e.preventDefault(); moveDrag(e.clientX); } });
     track.addEventListener('mouseup', endDrag);
     track.addEventListener('mouseleave', () => { if(isDragging) endDrag(); });
 
-    function startDrag(clientX, clientY) { isDragging = true; startX = clientX; startY = clientY; track.style.transition = 'none'; container.style.cursor = 'grabbing'; }
-    function moveDrag(clientX) { const diffX = clientX - startX; currentTranslate = prevTranslate + diffX; track.style.transform = `translateX(${currentTranslate}px)`; }
+    function startDrag(clientX, clientY) { 
+        isDragging = true; 
+        startX = clientX; 
+        startY = clientY; 
+        track.style.transition = 'none'; 
+        container.style.cursor = 'grabbing'; 
+    }
+
+    function moveDrag(clientX) { 
+        const diffX = clientX - startX; 
+        currentTranslate = prevTranslate + diffX; 
+        track.style.transform = `translateX(${currentTranslate}px)`; 
+    }
+
     function endDrag() {
         if (!isDragging) return; isDragging = false; container.style.cursor = 'grab';
         const movedBy = currentTranslate - prevTranslate; const threshold = window.innerWidth / 4; 
@@ -351,11 +408,15 @@
         prevTranslate = currentTranslate;
         track.style.transform = `translateX(${currentTranslate}px)`;
         updateActiveDayButton(index + 1);
-        highlightCurrentSlot();
-        updateHeaderInfo();
+        highlightCurrentSlot(); 
     }
 
-    function updateActiveDayButton(dayNum) { document.querySelectorAll('.day-btn').forEach(btn => { btn.classList.toggle('active-day', parseInt(btn.dataset.day) === dayNum); }); }
+    function updateActiveDayButton(dayNum) {
+        document.querySelectorAll('.day-btn').forEach(btn => {
+            btn.classList.toggle('active-day', parseInt(btn.dataset.day) === dayNum);
+        });
+    }
+
     function highlightCurrentSlot() {
       const now = new Date(); const currentDay = now.getDay(); const currentHour = now.getHours();
       document.querySelectorAll('.class-card.active-now').forEach(el => el.classList.remove('active-now'));
@@ -365,7 +426,10 @@
       });
     }
     setInterval(highlightCurrentSlot, 60000);
-    if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.log("SW Fail", err))); }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.log("SW Fail", err)));
+    }
   </script>
 </body>
 </html>
