@@ -26,7 +26,7 @@ const scheduleA6 = [
 
   // FRIDAY
   { day: 5, start: 11, duration: 1, title: "Physics-2", code: "FF4", teacher: "Dr. Sandeep Mishra", type: "lec" },
-  { day: 5, start: 13, duration: 1, title: "Physics-2", code: "TS8", teacher: "Dr. B. C. Joshi", type: "tut" },
+  { day: 5, start: 13, duration: 1, title: "Physics-2", code: "TS8", teacher: "Dr.Bhubesh Chander Joshi", type: "tut" },
   { day: 5, start: 14, duration: 1, title: "Mathematics-2", code: "TS8", teacher: "Dr. Neha Singhal", type: "tut" },
   { day: 5, start: 15, duration: 1, title: "SDF-2", code: "TS6", teacher: "Shardha Porwal", type: "tut" },
 
