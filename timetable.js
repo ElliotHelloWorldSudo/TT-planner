@@ -58,6 +58,36 @@ const scheduleA5 = [
   { day: 6, start: 11, duration: 1, title: "Mathematics-2", code: "FF1", teacher: "Dr. Arpita Nayek", type: "lec" },
 ];
 
+const scheduleB12 = [
+
+  { day: 1, start: 10, duration: 1, title: "UHV", code: "TS10",  teacher: "Dr.Ila Joshi", type: "tut" },
+  { day: 1, start: 11,  duration: 1, title: "Physics-2", code: "TS10", teacher: "Rakesh Kumar Dwivedi", type: "tut" }, 
+  { day: 1, start: 13, duration: 1, title: "Mathematics-2", code: "TS6",  teacher: "Dr.Himani Pant", type: "tut" },
+  { day: 1, start: 15, duration: 1, title: "SDF-2", code: "G1", teacher: "Dr.Asish Mishra", type: "lec" },
+
+  { day: 2, start: 9,  duration: 1, title: "SDF-2", code: "TS6", teacher: "Dr.Kavita Pandey", type: "tut" }, 
+  { day: 2, start: 13, duration: 1, title: "Mathematics-2", code: "FF3", teacher: "Dr.Himani Pant", type: "lec" }, 
+  { day: 2, start: 14, duration: 1, title: "SDF-2", code: "FF3", teacher: "Dr.Asish Mishra", type: "lec" }, 
+  { day: 2, start: 15, duration: 1, title: "Physics-2",   code: "FF2", teacher: "Dr.Navendu Goswami", type: "lec" }, 
+
+  { day: 3, start: 10,  duration: 2, title: "Physics Lab-2", code: "PL2", teacher: "Narinder Kaur/Anuraj Panwar", type: "lab" }, 
+  { day: 3, start: 13, duration: 1, title: "Physics-2", code: "G1",  teacher: "Dr.Navendu Goswami", type: "lec" },
+  { day: 3, start: 14, duration: 1, title: "Mathematics-2", code: "CS5", teacher: "Dr.Himani Pant", type: "lec" },
+
+  { day: 4, start: 10, duration: 1, title: "SDF-2", code: "CS5", teacher: "Dr.Asish Mishra", type: "lec" },
+  { day: 4, start: 13, duration: 2, title: "SDF Lab",code: "CL07", teacher: "Ms.Anupama Padha/Dr.Anita Sahoo", type: "lab" },
+  { day: 4, start: 15, duration: 2, title: "Life Skills Lab", code: "LL1",teacher: "Mohua Dutta", type: "lab" },
+
+  { day: 5, start: 10, duration: 1, title: "UHV", code: "FF3", teacher: "Dr.Amanpreet Kaur", type: "lec" },
+  { day: 5, start: 11, duration: 1, title: "Physics-2", code: "FF3", teacher: "Dr.Navendu Goswami", type: "lec" },
+  { day: 5, start: 13, duration: 1, title: "Worskshop",code: "TS11", teacher: "Ms.Madhu Jharia", type: "tut" },
+  { day: 5, start: 15, duration: 2, title: "Workshop Lab", code: "EW2", teacher: "Ms.Madhu Jharia", type: "lab" },
+
+  { day: 6, start: 9,  duration: 1, title: "UHV", code: "G1", teacher: "Dr.Amanpreet Kaur", type: "lec" },
+  { day: 6, start: 11, duration: 1, title: "Mathematics-2", code: "LL1", teacher: "Dr.Himani Pant", type: "lec" },
+  
+];
+
 
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 let currentSchedule = scheduleA6; 
