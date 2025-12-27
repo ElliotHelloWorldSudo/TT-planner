@@ -50,7 +50,7 @@ const scheduleA5 = [
 
 // BATCH B12 SCHEDULE
 const scheduleB12 = [
-  { day: 1, start: 10, duration: 1, title: "UHV", code: "TS10", teacher: "Dr.Ila Joshi", type: "tut" },
+  { day: 1, start: 10, duration: 1, title: "UHV", code: "TS10", teacher: "Dr.ILA Joshi", type: "tut" },
   { day: 1, start: 11, duration: 1, title: "Physics-2", code: "TS10", teacher: "Rakesh Kumar Dwivedi", type: "tut" },
   { day: 1, start: 13, duration: 1, title: "Mathematics-2", code: "TS6", teacher: "Dr.Himani Pant", type: "tut" },
   { day: 1, start: 15, duration: 1, title: "SDF-2", code: "G1", teacher: "Dr.Asish Mishra", type: "lec" },
