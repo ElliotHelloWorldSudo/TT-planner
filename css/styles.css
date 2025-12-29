@@ -853,6 +853,11 @@ body[data-theme="light"] .day-header {
   -ms-user-select: none;
 }
 
+body[data-theme="light"] .info-badge {
+  background: rgba(0,0,0,0.06);
+  color: rgba(0,0,0,0.75);
+}
+
 
 
 
