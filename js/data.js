@@ -268,26 +268,31 @@ const scheduleA6 = [
 ];
 
 const scheduleA7 = [
+    { day: 1, start: 10, duration: 2, title: "CS121", code: "CL01", teacher: "SHP,APR", type: "lab" },
     { day: 1, start: 13, duration: 1, title: "PH211", code: "FF1", teacher: "DIP", type: "lec" },
     { day: 1, start: 14, duration: 1, title: "HS111", code: "FF1", teacher: "ANU", type: "lec" },
     { day: 1, start: 15, duration: 1, title: "CI121", code: "FF1", teacher: "PRV", type: "lec" },
-    { day: 2, start: 11, duration: 1, title: "PH211", code: "TS12", teacher: "SHIV", type: "tut" },
+
     { day: 2, start: 13, duration: 1, title: "PH211", code: "CR325", teacher: "DIP", type: "lec" },
     { day: 2, start: 14, duration: 1, title: "MA211", code: "CR526", teacher: "HZR", type: "tut" },
-    { day: 2, start: 15, duration: 1, title: "CI121", code: "CS5", teacher: "MAY", type: "lec" },
+    { day: 2, start: 15, duration: 1, title: "CI121", code: "TS7", teacher: "AM", type: "tut" },
+    { day: 2, start: 14, duration: 1, title: "CI121", code: "G1", teacher: "PRV", type: "lec" },
+
     { day: 3, start: 11, duration: 1, title: "HS111", code: "TS12", teacher: "MB", type: "tut" },
+
     { day: 4, start: 9, duration: 1, title: "CI121", code: "FF1", teacher: "PRV", type: "lec" },
     { day: 4, start: 10, duration: 1, title: "MA211", code: "TS7", teacher: "HZR", type: "tut" },
     { day: 4, start: 11, duration: 1, title: "HS111", code: "FF1", teacher: "ANU", type: "lec" },
+    { day: 4, start: 13, duration: 1, title: "MA211", code: "G8", teacher: "HZR", type: "lec" },
+
+    { day: 5, start: 9, duration: 2, title: "HS111", code: "LL", teacher: "VSE", type: "lab" },
     { day: 5, start: 13, duration: 1, title: "PH211", code: "FF1", teacher: "DIP", type: "lec" },
-    { day: 5, start: 14, duration: 1, title: "HS111", code: "TS12", teacher: "AMN", type: "tut" },
-    { day: 6, start: 11, duration: 1, title: "GE112", code: "TS6", teacher: "ASG", type: "tut" },
+    { day: 5, start: 14, duration: 1, title: "GE112", code: "TS10", teacher: "BCJ", type: "tut" },
+    { day: 5, start: 15, duration: 2, title: "PH271", code: "PL3", teacher: "RKD,INC", type: "lab" },
+
+    { day: 6, start: 9, duration: 2, title: "GE112", code: "EW1", teacher: "ASG,GRP", type: "lab" },
+    { day: 6, start: 11, duration: 1, title: "GE112", code: "TS6", teacher: "AM", type: "tut" },
     { day: 6, start: 12, duration: 1, title: "MA211", code: "G1", teacher: "HZR", type: "lec" },
-    { day: 6, start: 9, duration: 2, title: "GE112", code: "EW1", teacher: "ASG", type: "lab" },
-    { day: 6, start: 9, duration: 2, title: "HS111", code: "LL", teacher: "SKU", type: "lab" },
-    { day: 5, start: 15, duration: 2, title: "PH271", code: "PL3", teacher: "RKD/INC", type: "lab" },
-    { day: 2, start: 9, duration: 1, title: "HS111", code: "TS6", teacher: "SMO", type: "tut" },
-    { day: 3, start: 13, duration: 1, title: "MA211", code: "FF3", teacher: "HZR", type: "lec" }
 ];
 
 const scheduleA8 = [
@@ -296,21 +301,25 @@ const scheduleA8 = [
     { day: 1, start: 13, duration: 1, title: "PH211", code: "FF1", teacher: "DIP", type: "lec" },
     { day: 1, start: 14, duration: 1, title: "HS111", code: "FF1", teacher: "ANU", type: "lec" },
     { day: 1, start: 15, duration: 1, title: "CI121", code: "FF1", teacher: "PRV", type: "lec" },
-    { day: 2, start: 10, duration: 1, title: "PH211", code: "TS8", teacher: "ANU", type: "tut" },
+
     { day: 2, start: 13, duration: 1, title: "PH211", code: "CR325", teacher: "DIP", type: "lec" },
     { day: 2, start: 14, duration: 1, title: "MA211", code: "CR526", teacher: "HZR", type: "lec" },
     { day: 2, start: 15, duration: 1, title: "CI121", code: "TS7", teacher: "SHP", type: "tut" },
+    { day: 2, start: 16, duration: 1, title: "CI121", code: "G1", teacher: "PRV", type: "lec" },
+
     { day: 4, start: 9, duration: 1, title: "CI121", code: "FF1", teacher: "PRV", type: "lec" },
-    { day: 4, start: 10, duration: 1, title: "MA211", code: "G8", teacher: "HZR", type: "lec" },
     { day: 4, start: 11, duration: 1, title: "HS111", code: "FF1", teacher: "ANU", type: "lec" },
+    { day: 4, start: 13, duration: 1, title: "MA211", code: "G8", teacher: "HZR", type: "lec" },
+    { day: 4, start: 15, duration: 2, title: "CS121", code: "CL01", teacher: "MGR,RTK", type: "lab" },
+
+    { day: 5, start: 9, duration: 2, title: "HS111", code: "LL1", teacher: "MDU", type: "lab" },
     { day: 5, start: 13, duration: 1, title: "PH211", code: "FF1", teacher: "DIP", type: "lec" },
+    { day: 5, start: 14, duration: 1, title: "HS111", code: "TS12", teacher: "AMN", type: "tut" },
+    { day: 5, start: 15, duration: 2, title: "PH271", code: "PL1", teacher: "GPK/SND", type: "lab" },
+
+    { day: 6, start: 9, duration: 2, title: "GE112", code: "EW2", teacher: "MJH", type: "lab" },
     { day: 6, start: 11, duration: 1, title: "GE112", code: "TS7", teacher: "MJH", type: "tut" },
     { day: 6, start: 12, duration: 1, title: "MA211", code: "G1", teacher: "HZR", type: "lec" },
-    { day: 6, start: 9, duration: 2, title: "GE112", code: "EW2", teacher: "MJH", type: "lab" },
-    { day: 6, start: 9, duration: 2, title: "HS111", code: "LL1", teacher: "ASU", type: "lab" },
-    { day: 5, start: 15, duration: 2, title: "PH271", code: "PL1", teacher: "GPK/SND", type: "lab" },
-    { day: 3, start: 9, duration: 1, title: "MA211", code: "TS12", teacher: "ATI", type: "tut" },
-    { day: 2, start: 11, duration: 1, title: "CI121", code: "FF4", teacher: "ALK", type: "lec" }
 ];
 
 
@@ -860,93 +869,110 @@ const scheduleD2 = [
 
 // --- GROUP G ---
 const scheduleG1 = [
-    { day: 1, start: 9, duration: 1, title: "CI121", code: "F7", teacher: "NIY", type: "tut" },
     { day: 1, start: 10, duration: 1, title: "PH211", code: "FF3", teacher: "NAR", type: "lec" },
     { day: 1, start: 11, duration: 1, title: "MA211", code: "FF3", teacher: "PAT", type: "lec" },
     { day: 1, start: 13, duration: 1, title: "HS111", code: "FF2", teacher: "MKB", type: "lec" },
-    { day: 1, start: 14, duration: 1, title: "PH211", code: "TS8", teacher: "NKS", type: "tut" },
+    { day: 1, start: 14, duration: 1, title: "PH211", code: "TS7", teacher: "DAM", type: "tut" },
+    { day: 1, start: 15, duration: 2, title: "PH271", code: "PL2", teacher: "EKY/DIP", type: "lab" },
     { day: 2, start: 11, duration: 1, title: "CI121", code: "G7", teacher: "RTK", type: "lec" },
-    { day: 2, start: 14, duration: 1, title: "PH211", code: "TS7", teacher: "DAM", type: "tut" },
+    
     { day: 3, start: 9, duration: 1, title: "GE112", code: "TS11", teacher: "GGL", type: "tut" },
     { day: 3, start: 10, duration: 2, title: "GE112", code: "EW1", teacher: "GGL", type: "lab" },
-    { day: 3, start: 3, duration: 2, title: "PH271", code: "PL3", teacher: "RKD/DAM", type: "lab" },
     { day: 3, start: 13, duration: 2, title: "HS111", code: "LL", teacher: "KMB", type: "lab" },
+    { day: 3, start: 15, duration: 1, title: "CI121", code: "FF2", teacher: "RTK", type: "lec" },
     { day: 3, start: 16, duration: 1, title: "HS111", code: "FF2", teacher: "MKB", type: "lec" },
+
     { day: 4, start: 11, duration: 1, title: "CI121", code: "TS12", teacher: "SHR", type: "tut" },
     { day: 4, start: 13, duration: 1, title: "PH211", code: "FF3", teacher: "NAR", type: "lec" },
     { day: 4, start: 14, duration: 1, title: "MA211", code: "FF3", teacher: "PAT", type: "lec" },
     { day: 4, start: 15, duration: 1, title: "HS111", code: "TS13", teacher: "NSK", type: "tut" },
+
     { day: 5, start: 10, duration: 1, title: "PH211", code: "G1", teacher: "NAR", type: "lec" },
+    { day: 5, start: 13, duration: 1, title: "MA211", code: "FF4", teacher: "PAT", type: "lec" },
     { day: 5, start: 16, duration: 1, title: "CI121", code: "FF4", teacher: "RTK", type: "lec" },
+
     { day: 6, start: 10, duration: 1, title: "MA211", code: "TS10", teacher: "PAT", type: "tut" },
     { day: 6, start: 11, duration: 2, title: "CS121", code: "CL01", teacher: "SRG/SMS", type: "lab" },
 ];
 
 const scheduleG2 = [
-    { day: 1, start: 10, duration: 1, title: "PH211", code: "FF3", teacher: "NAR", type: "lec" },
     { day: 1, start: 9, duration: 1, title: "CI121", code: "F7", teacher: "NIY", type: "tut" },
+    { day: 1, start: 10, duration: 1, title: "PH211", code: "FF3", teacher: "NAR", type: "lec" },
     { day: 1, start: 11, duration: 1, title: "MA211", code: "FF3", teacher: "PAT", type: "lec" },
     { day: 1, start: 13, duration: 1, title: "HS111", code: "FF2", teacher: "MKB", type: "lec" },
     { day: 1, start: 14, duration: 1, title: "PH211", code: "TS8", teacher: "NKS", type: "tut" },
+    { day: 1, start: 15, duration: 2, title: "PH271", code: "PL3", teacher: "RKD/DAM", type: "lab" },
+
     { day: 2, start: 11, duration: 1, title: "CI121", code: "G7", teacher: "RTK", type: "lec" },
-    { day: 2, start: 14, duration: 1, title: "PH211", code: "TS7", teacher: "DAM", type: "tut" },
+    
     { day: 3, start: 9, duration: 1, title: "GE112", code: "TS20", teacher: "MJH", type: "tut" },
     { day: 3, start: 10, duration: 2, title: "GE112", code: "EW2", teacher: "MJH", type: "lab" },
-    { day: 3, start: 13, duration: 1, title: "CI121", code: "FF2", teacher: "RTK", type: "lec" },
-    { day: 3, start: 15, duration: 2, title: "HS111", code: "LL1", teacher: "MDU", type: "lab" },
-    { day: 3, start: 3, duration: 2, title: "PH271", code: "PL3", teacher: "RKD/DAM", type: "lab" },
-    { day: 4, start: 11, duration: 1, title: "CI121", code: "TS12", teacher: "SHR", type: "tut" },
+    { day: 3, start: 13, duration: 2, title: "HS111", code: "LL1", teacher: "MDU", type: "lab" },
+    { day: 3, start: 15, duration: 1, title: "CI121", code: "FF2", teacher: "RTK", type: "lec" },
+    { day: 3, start: 16, duration: 1, title: "HS111", code: "FF2", teacher: "MKB", type: "lec" },
+
+    { day: 4, start: 10, duration: 1, title: "HS111", code: "TS11", teacher: "SP", type: "tut" },
     { day: 4, start: 13, duration: 1, title: "PH211", code: "FF3", teacher: "NAR", type: "lec" },
     { day: 4, start: 14, duration: 1, title: "MA211", code: "FF3", teacher: "PAT", type: "lec" },
+
     { day: 5, start: 10, duration: 1, title: "PH211", code: "G1", teacher: "NAR", type: "lec" },
     { day: 5, start: 11, duration: 1, title: "MA211", code: "TS6", teacher: "DCS", type: "tut" },
-    { day: 5, start: 14, duration: 1, title: "HS111", code: "TS13", teacher: "NSK", type: "tut" },
+    { day: 5, start: 13, duration: 1, title: "MA211", code: "FF4", teacher: "PAT", type: "lec" },
     { day: 5, start: 16, duration: 1, title: "CI121", code: "FF4", teacher: "RTK", type: "lec" },
-    { day: 6, start: 9, duration: 2, title: "CS121", code: "CL09", teacher: "MAY/NSA", type: "lab" },
 ];
 
 const scheduleG3 = [
     { day: 1, start: 10, duration: 1, title: "PH211", code: "TS11", teacher: "ABH", type: "tut" },
     { day: 1, start: 13, duration: 1, title: "HS111", code: "FF3", teacher: "SGL", type: "lec" },
     { day: 1, start: 15, duration: 1, title: "CI121", code: "CS5", teacher: "SRG", type: "lec" },
+
     { day: 2, start: 10, duration: 2, title: "HS111", code: "LL", teacher: "HK", type: "lab" },
     { day: 2, start: 13, duration: 1, title: "MA211", code: "FF4", teacher: "DCS", type: "lec" },
     { day: 2, start: 14, duration: 1, title: "CI121", code: "FF4", teacher: "SRG", type: "lec" },
+    { day: 2, start: 15, duration: 1, title: "PH211", code: "FF3", teacher: "EKY", type: "lec" },
+
     { day: 3, start: 13, duration: 1, title: "PH211", code: "G6", teacher: "EKY", type: "lec" },
-    { day: 3, start: 9, duration: 1, title: "HS111", code: "TS7", teacher: "NSK", type: "tut" },
     { day: 3, start: 14, duration: 1, title: "MA211", code: "G6", teacher: "DCS", type: "lec" },
     { day: 3, start: 16, duration: 1, title: "HS111", code: "FF4", teacher: "SGL", type: "lec" },
+    
     { day: 4, start: 10, duration: 1, title: "CI121", code: "CR425", teacher: "SRG", type: "lec" },
-    { day: 4, start: 11, duration: 1, title: "MA211", code: "TS8", teacher: "DCS", type: "tut" },
+    { day: 4, start: 13, duration: 1, title: "MA211", code: "TS8", teacher: "DCS", type: "tut" },
     { day: 4, start: 14, duration: 1, title: "HS111", code: "TS13", teacher: "SP", type: "tut" },
+    { day: 4, start: 15, duration: 2, title: "CS121", code: "CL07", teacher: "KP/PSO", type: "lab" },
+
     { day: 5, start: 9, duration: 1, title: "CI121", code: "TS13", teacher: "NIY", type: "tut" },
     { day: 5, start: 10, duration: 1, title: "GE112", code: "TS12", teacher: "ADM", type: "tut" },
     { day: 5, start: 11, duration: 1, title: "PH211", code: "CR425", teacher: "EKY", type: "lec" },
     { day: 5, start: 15, duration: 2, title: "GE112", code: "EW1", teacher: "ADM", type: "lab" },
+
     { day: 6, start: 9, duration: 2, title: "PH271", code: "PL1", teacher: "DAM/INC", type: "lab" },
     { day: 6, start: 11, duration: 1, title: "MA211", code: "CS5", teacher: "DCS", type: "lec" },
-    { day: 6, start: 15, duration: 2, title: "CS121", code: "CL07", teacher: "KP/PSO", type: "lab" },
 ];
 
 const scheduleG4 = [
-    { day: 1, start: 9, duration: 1, title: "HS111", code: "TS7", teacher: "NSK", type: "tut" },
     { day: 1, start: 10, duration: 2, title: "CS121", code: "CL05", teacher: "AVR/TNV", type: "lab" },
     { day: 1, start: 13, duration: 1, title: "HS111", code: "FF3", teacher: "SGL", type: "lec" },
     { day: 1, start: 15, duration: 1, title: "CI121", code: "CS5", teacher: "SRG", type: "lec" },
+
     { day: 2, start: 10, duration: 2, title: "HS111", code: "LL1", teacher: "MRB", type: "lab" },
     { day: 2, start: 13, duration: 1, title: "MA211", code: "FF4", teacher: "DCS", type: "lec" },
     { day: 2, start: 14, duration: 1, title: "CI121", code: "FF4", teacher: "SRG", type: "lec" },
+    { day: 2, start: 15, duration: 1, title: "PH211", code: "FF3", teacher: "EKY", type: "lec" },
+
     { day: 3, start: 9, duration: 1, title: "HS111", code: "TS7", teacher: "NSK", type: "tut" },
     { day: 3, start: 10, duration: 1, title: "CI121", code: "TS11", teacher: "NIY", type: "tut" },
     { day: 3, start: 11, duration: 1, title: "MA211", code: "TS11", teacher: "DCS", type: "tut" },
     { day: 3, start: 13, duration: 1, title: "PH211", code: "G6", teacher: "EKY", type: "lec" },
     { day: 3, start: 14, duration: 1, title: "MA211", code: "G6", teacher: "DCS", type: "lec" },
     { day: 3, start: 16, duration: 1, title: "HS111", code: "FF4", teacher: "SGL", type: "lec" },
+
     { day: 4, start: 10, duration: 1, title: "CI121", code: "CR425", teacher: "SRG", type: "lec" },
-    { day: 4, start: 11, duration: 1, title: "MA211", code: "TS8", teacher: "DCS", type: "tut" },
     { day: 4, start: 13, duration: 1, title: "GE112", code: "TS7", teacher: "GGL", type: "tut" },
-    { day: 4, start: 15, duration: 2, title: "GE112", code: "EW1", teacher: "GGL", type: "lab" },
+    { day: 4, start: 15, duration: 2, title: "GE112", code: "EW1", teacher: "GGL,GRP", type: "lab" },
+    
     { day: 5, start: 11, duration: 1, title: "PH211", code: "CR425", teacher: "EKY", type: "lec" },
+    { day: 5, start: 15, duration: 1, title: "PH211", code: "TS7", teacher: "RKG", type: "tut" },
+
     { day: 6, start: 9, duration: 2, title: "PH271", code: "PL2", teacher: "DIP", type: "lab" },
     { day: 6, start: 11, duration: 1, title: "MA211", code: "CS5", teacher: "DCS", type: "lec" },
 ];
@@ -1000,6 +1026,7 @@ if (typeof module !== 'undefined' && module.exports) {
     // ... export other schedules if needed
   };
 }
+
 
 
 
